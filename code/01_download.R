@@ -55,7 +55,7 @@ find_project_root <- function() {
   start <- if (length(f)) dirname(normalizePath(f, mustWork = FALSE)) else getwd()
   d <- normalizePath(start, mustWork = FALSE)
   while (!identical(d, dirname(d))) {
-    if (file.exists(file.path(d, "R", "01_download.R"))) return(d)
+    if (file.exists(file.path(d, "R", "01_download.R")) || file.exists(file.path(d, "code", "01_download.R"))) return(d)
     d <- dirname(d)
   }
   d
