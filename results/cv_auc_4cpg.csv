@@ -1,0 +1,4 @@
+"contrast","n","auc_in_sample","auc_cv_mean","auc_cv_p2.5","auc_cv_p97.5"
+"ARDS_vs_healthy",69,0.993,0.993,0.993,0.993
+"ICU_vs_healthy",105,0.98,0.98,0.98,0.98
+"ARDS_vs_ICU",114,0.561,0.526,0.464,0.562
