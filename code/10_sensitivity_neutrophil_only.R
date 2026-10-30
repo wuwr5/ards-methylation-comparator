@@ -15,10 +15,23 @@ resolve_root <- function() {
   d
 }
 ROOT <- resolve_root()
+# lock the repo dir absolutely BEFORE setwd() changes the cwd
+ca <- commandArgs(FALSE)
+cf <- sub("^--file=", "", ca[grep("^--file=", ca)])
+REPO_DIR <- if (length(cf)) dirname(dirname(normalizePath(cf[1], mustWork = FALSE))) else ROOT
 setwd(ROOT)
+# output/ (pipeline) with results/ (repo snapshot) fallback
+resfile <- function(p) {
+  cands <- c(file.path(ROOT, "output", p),
+             file.path(ROOT, "results", p),
+             file.path(REPO_DIR, "results", p))
+  for (x in cands) if (file.exists(x)) return(x)
+  cands[1]
+}
+
 beta <- readRDS("data/processed/gse67530_beta.rds")
 pd   <- readRDS("data/processed/gse67530_pdata.rds")
-rmat <- read.csv("output/cell_estimates_GSE67530.csv", row.names = 1, check.names = FALSE)
+rmat <- read.csv(resfile("cell_estimates_GSE67530.csv"), row.names = 1, check.names = FALSE)
 pf <- function(x) trimws(sub("^[^:]*:\\s*","",as.character(x)))
 grp <- suppressWarnings(as.numeric(pf(pd$characteristics_ch1_4)))
 stopifnot(identical(rownames(rmat), colnames(beta)))

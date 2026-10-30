@@ -13,12 +13,31 @@ resolve_root <- function() {
   d
 }
 ROOT <- resolve_root()
+# lock the repo dir absolutely BEFORE setwd() changes the cwd
+ca <- commandArgs(FALSE)
+cf <- sub("^--file=", "", ca[grep("^--file=", ca)])
+REPO_DIR <- if (length(cf)) dirname(dirname(normalizePath(cf[1], mustWork = FALSE))) else ROOT
 setwd(ROOT)
-rmat <- read.csv("output/cell_estimates_GSE67530.csv", row.names=1, check.names=FALSE)
-pd <- readRDS("data/processed/gse67530_pdata.rds")
+# output/ (pipeline) with results/ (repo snapshot) fallback
+resfile <- function(p) {
+  cands <- c(file.path(ROOT, "output", p),
+             file.path(ROOT, "results", p),
+             file.path(REPO_DIR, "results", p))
+  for (x in cands) if (file.exists(x)) return(x)
+  cands[1]
+}
+
+rmat <- read.csv(resfile("cell_estimates_GSE67530.csv"), row.names=1, check.names=FALSE)
+pd <- readRDS(resfile("gse67530_pdata.rds"))
 pf <- function(x) trimws(sub("^[^:]*:\\s*","",as.character(x)))
 grp <- suppressWarnings(as.numeric(pf(pd$characteristics_ch1_4)))
-stopifnot(identical(rownames(rmat), colnames(readRDS("data/processed/gse67530_beta.rds"))))
+beta_path <- file.path(ROOT, "data", "processed", "gse67530_beta.rds")
+if (file.exists(beta_path)) {
+  stopifnot(identical(rownames(rmat), colnames(readRDS(beta_path))))
+} else {
+  cat("NOTE: beta matrix not found (run 01_download.R for the identity check);",
+      "using the results/ snapshot.\n\n")
+}
 n <- rmat$Neutro
 cat("n:", length(n), " groups:", table(grp, useNA="ifany"), "\n\n")
 for (g in c("healthy(NA)","ICU(0)","ARDS(1)")) {
