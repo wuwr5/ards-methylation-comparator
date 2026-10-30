@@ -1,0 +1,17 @@
+# R
+*.Rhistory
+*.RData
+*.Rproj
+.Rproj.user/
+
+# data (downloaded from GEO by code/01_download.R)
+data/
+tmp/
+
+# large regenerated outputs (DMP tables ~57-78 MB each)
+output/*dmps*.csv
+
+# OS / editor
+Thumbs.db
+.DS_Store
+*.swp
