@@ -1,0 +1,8 @@
+"model","n_probe","n_fdr05","n_bonf","min_adjp"
+"ards_vs_icu_unadj",485577,0,0,0.999990610437788
+"ards_vs_icu_rawprop",485577,0,0,0.999994749915879
+"ards_vs_icu_ilr",485577,0,0,0.99998583569801
+"ards_vs_icu_clr",485577,0,0,0.99998583569801
+"ards_vs_hlth_unadj",485577,131444,30764,7.12311198352297e-18
+"ards_vs_hlth_rawprop",485577,38,6,0.00249478692031644
+"ards_vs_hlth_ilr",485577,186,6,0.000324867190127624

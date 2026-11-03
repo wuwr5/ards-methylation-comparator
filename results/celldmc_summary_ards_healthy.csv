@@ -1,0 +1,7 @@
+"celltype","term","n_fdr05","n_p1e3","min_p"
+"Neutro","pheno",4616,5931,6.08211303283613e-10
+"B","pheno:frac_B",0,2002,8.55049996230746e-07
+"NK","pheno:frac_NK",77,1332,4.8737896540755e-09
+"CD4T","pheno:frac_CD4T",2932,4387,1.48778754424843e-09
+"CD8T","pheno:frac_CD8T",1189,3283,6.31103713081753e-10
+"Mono","pheno:frac_Mono",0,226,1.16157946736826e-05
